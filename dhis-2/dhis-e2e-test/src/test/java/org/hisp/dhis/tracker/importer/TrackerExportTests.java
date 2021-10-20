@@ -27,6 +27,7 @@
  */
 package org.hisp.dhis.tracker.importer;
 
+import static io.restassured.RestAssured.given;
 import static org.hamcrest.Matchers.*;
 
 import java.util.ArrayList;
@@ -38,6 +39,7 @@ import org.hisp.dhis.dto.ApiResponse;
 import org.hisp.dhis.dto.TrackerApiResponse;
 import org.hisp.dhis.tracker.TrackerNtiApiTest;
 import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
@@ -131,5 +133,34 @@ public class TrackerExportTests
         } );
 
         return split;
+    }
+
+    @Test
+    public void shouldReturnSingleTeiGivenFilter()
+    {
+        given().
+                queryParam("orgUnit", "O6uvpzGd5pu").
+                queryParam("program", "f1AyMswryyQ").
+                queryParam("filter", "kZeSYCgaHTk:in:Bravo").
+        when().
+                get("tracker/trackedEntities").
+        then().
+                statusCode(200).
+                body("instances.trackedEntity", contains("Kj6vYde4LHh"));
+    }
+
+    @Test
+    public void shouldReturnSingleTeiGivenFilterWhileSkippingPaging()
+    {
+        given().
+                queryParam("orgUnit", "O6uvpzGd5pu").
+                queryParam("program", "f1AyMswryyQ").
+                queryParam("skipPaging", "true").
+                queryParam("filter", "kZeSYCgaHTk:in:Bravo").
+        when().
+                get("tracker/trackedEntities").
+        then().
+                statusCode(200).
+                body("instances.trackedEntity", contains("Kj6vYde4LHh"));
     }
 }
