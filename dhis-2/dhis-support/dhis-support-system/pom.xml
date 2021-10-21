@@ -188,6 +188,13 @@
       <groupId>org.apache.velocity</groupId>
       <artifactId>velocity</artifactId>
     </dependency>
+    <!-- TODO this needs to be removed since commons-lang is EOL -->
+<!-- needed by org.apache.velocity.runtime.resource.ResourceManagerImpl.initialize(ResourceManagerImpl.java:161) -->
+    <dependency>
+      <groupId>commons-lang</groupId>
+      <artifactId>commons-lang</artifactId>
+      <version>2.6</version>
+    </dependency>
     <dependency>
       <groupId>javax.servlet</groupId>
       <artifactId>javax.servlet-api</artifactId>
